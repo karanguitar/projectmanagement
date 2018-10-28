@@ -1,12 +1,13 @@
 import {combineReducers} from 'redux'
 import authReducer from './authReducer'
-import projectReducer from './authReducer'
+import projectReducer from './projectReducer'
+import {firestoreReducer} from 'redux-firestore'
+
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    projects: projectReducer
+    project: projectReducer,
+    firestore: firestoreReducer
 })
-
-console.log(authReducer)
 
 export default rootReducer
