@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {createProject} from '../../store/actions/ProjectActions'
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 
 
 class CreateProject extends Component {
-
+    
     state ={
         title: "",
         content: ""
@@ -19,10 +20,13 @@ class CreateProject extends Component {
     handleSubmit = (event) =>{
         event.preventDefault()
         this.props.createProject(this.state)
+        this.props.history.push('/')
     }
     
-
+    
     render() {
+        const {auth} = this.props
+        if(auth.uid){
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit} className="white">
@@ -42,7 +46,15 @@ class CreateProject extends Component {
                     </div>
                 </form>
             </div>
-        );
+        );}else{
+            return <Redirect to="/login" />
+        }
+    }
+}
+
+const matchStateToProps = (state) =>{
+    return{
+        auth: state.firebase.auth
     }
 }
 
@@ -52,4 +64,4 @@ const matchDispatchToProps = (dispatch)=>{
     }
 }
 
-export default connect(null, matchDispatchToProps)(CreateProject);
+export default connect(matchStateToProps, matchDispatchToProps)(CreateProject);
